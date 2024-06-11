@@ -6,6 +6,8 @@ import dataSource from './datasource/datasource';
 import { User } from './entities/User.entity';
 import { Profile } from './entities/Profile.entity';
 import { Todo } from './entities/Todo.entity';
+import { Student } from './entities/Student.entity';
+import { Course } from './entities/Course.entity';
 
 const app = express();
 const PORT = 5000;
@@ -21,8 +23,38 @@ dataSource.initialize()
   });
 
 app.get("/", async (req: Request, res: Response) => { 
-  let userRepo = dataSource.getRepository(User);
-  const todoRepo = dataSource.getRepository(Todo);
+  const studentRepo = dataSource.getRepository(Student);
+  const courseRepo = dataSource.getRepository(Course);
+
+  const result = await courseRepo.find({
+    relations: ["students"]
+  });
+
+  // const result = await studentRepo.find();
+  res.json(result);
+
+  // const course1 = new Course();
+  // course1.code = "CS-114";
+  // course1.title = "Computer Programming";
+
+  // const course2 = new Course();
+  // course2.code = "MA-114";
+  // course2.title = "Math Calculus";
+
+  // const student = new Student();
+  // student.firstname = "Joan";
+  // student.lastname = "Boe";
+  // student.age = 22;
+  // student.rollNo = "ST-001";
+  // student.courses = [course1, course2];
+
+  // const savedStudent = await studentRepo.save(student);
+  // res.json(savedStudent);
+});
+
+// app.get("/", async (req: Request, res: Response) => { 
+//   const userRepo = dataSource.getRepository(User);
+//   const todoRepo = dataSource.getRepository(Todo);
 
   // const todo1 = new Todo();
   // todo1.title = "Learn TypeORM";
@@ -50,12 +82,12 @@ app.get("/", async (req: Request, res: Response) => {
   // });
   // res.json(allUsers);
 
-  let allTodos = await todoRepo.find({
-    relations: ["user"]
-  });
+//   let allTodos = await todoRepo.find({
+//     relations: ["user"]
+//   });
 
-  res.json(allTodos);
-});
+//   res.json(allTodos);
+// });
 
 
 // app.get("/", async (req: Request, res: Response) => {
