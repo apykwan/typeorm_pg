@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 
 import { User } from '../entities/User.entity';
 import { Profile } from '../entities/Profile.entity';
+import { Todo } from '../entities/Todo.entity';
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const dataSource = new DataSource({
   database: process.env.DB_NAME,
   logging: false,
   synchronize: true,
-  entities: [User, Profile]
+  entities: [User, Profile, Todo]
 });
 
 export default dataSource;

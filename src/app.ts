@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import dataSource from './datasource/datasource';
 import { User } from './entities/User.entity';
 import { Profile } from './entities/Profile.entity';
+import { Todo } from './entities/Todo.entity';
 
 const app = express();
 const PORT = 5000;
@@ -19,9 +20,47 @@ dataSource.initialize()
     console.log('Fail to connect, ', err);
   });
 
-app.get("/", async (req: Request, res: Response) => {
+app.get("/", async (req: Request, res: Response) => { 
   let userRepo = dataSource.getRepository(User);
-  let profileRepo = dataSource.getRepository(Profile);
+  const todoRepo = dataSource.getRepository(Todo);
+
+  // const todo1 = new Todo();
+  // todo1.title = "Learn TypeORM";
+  // todo1.description = "Learn Typeorm on YouTube";
+
+  // const todo2 = new Todo();
+  // todo2.title = "Learn Express";
+  // todo2.description = "Learn Express on YouTube";
+
+  // const todo3 = new Todo();
+  // todo3.title = "Learn PostgreSQL";
+  // todo3.description = "Learn PostgreSQL on YouTube";
+
+  // const user = new User;
+  // user.firstname = "Johnny";
+  // user.lastname = "Doe";
+  // user.isActive = true;
+  // user.todos = [todo1, todo2, todo3];
+
+  // let savedUser = await userRepo.save(user);
+  // res.json(savedUser);
+
+  // const allUsers = await userRepo.find({
+  //   relations: ["todos"]
+  // });
+  // res.json(allUsers);
+
+  let allTodos = await todoRepo.find({
+    relations: ["user"]
+  });
+
+  res.json(allTodos);
+});
+
+
+// app.get("/", async (req: Request, res: Response) => {
+  // let userRepo = dataSource.getRepository(User);
+  // let profileRepo = dataSource.getRepository(Profile);
 
   // const profile = new Profile();
   // profile.gender = "female";
@@ -59,11 +98,11 @@ app.get("/", async (req: Request, res: Response) => {
   // const result = await userRepo.delete(2);
 
 
-  const result = await profileRepo.find({
-    relations: ["user"]
-  });
+  // const result = await profileRepo.find({
+  //   relations: ["user"]
+  // });
   // console.log(allProfiles[0].user)
 
-  res.json(result);
-});
+  // res.json(result);
+// });
 

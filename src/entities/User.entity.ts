@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany, JoinColumn } from 'typeorm';
 
 import { Profile } from './Profile.entity';
+import { Todo } from './Todo.entity';
 
 @Entity()
 export class User {
@@ -13,10 +14,13 @@ export class User {
   @Column()
   lastname: string;
 
-  @Column()
+  @Column({ default: true })
   isActive: boolean;
 
   @OneToOne(() => Profile, (profile) => profile.user, { cascade: true, eager: true })
   @JoinColumn()
   profile: Profile;
+
+  @OneToMany(() => Todo, todo => todo.user, { cascade: true })
+  todos: Todo[]
 }

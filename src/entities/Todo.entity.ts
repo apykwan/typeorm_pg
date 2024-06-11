@@ -1,18 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, ManyToOne, JoinColumn } from 'typeorm';
 
 import { User } from './User.entity';
 
 @Entity({ name: "Todo"})
-export class Profile {
+export class Todo {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ nullable: false })
-  gender: string;
+  title: string;
 
   @Column({ nullable: true })
-  skill: string;
+  description: string;
 
-  @OneToOne(() => User, user => user.profile)
+  @Column({ default: false })
+  isCompleted: boolean;
+
+  @ManyToOne(() => User, user => user.todos)
   user: User;
 }
